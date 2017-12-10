@@ -29,11 +29,7 @@ public class CargaLog4j extends HttpServlet {
         
         // Obtiene el parametro de inicio
         String log4jFile = config.getInitParameter("log4jPropertiesFile");
-        System.out.println("Archivo: " + log4jFile);
-        // Obtiene la ruta real del archivo (ruta absoluta)
-//        ServletContext context = config.getServletContext();
-//        log4jFile = context.getRealPath(log4jFile);
-        System.out.println("Archivo: " + log4jFile);
+
         // Carga el log4j.properties si existe y sino carga BasicConfigurator
         if (new File(log4jFile).isFile()) {
         	
