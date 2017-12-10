@@ -14,7 +14,7 @@ public class ConnectionFactory {
 	
 	private static final String ERROR_DE_CONEXION = "Error de Conexion: ";
 	private static Logger log = Logger.getLogger(ConnectionFactory.class);
-	private static final String nombreAplicaciones = "select idAplicacion from Reporte group by idAplicacion";
+	private static final String nomAp = "select idAplicacion from Reporte group by idAplicacion";
 	private static final String consultaHistorial = "select R.fecha, R.stream, R.eficiencia, R.mantenibilidad, R.portabilidad, R.fiabilidad, R.seguridad, R.medidor, R.observacion FROM Reporte as R where R.idAplicacion = ? ";
 	private static final String mayorMedicion = "select MAX(eficiencia) as eficiencia, MAX(mantenibilidad) as mantenibilidad, MAX(portabilidad) as portabilidad, MAX(fiabilidad) as fiabilidad, MAX(seguridad) as seguridad, idAplicacion FROM Reporte as R  group by idAplicacion";
 	private static final String consultaExclusiones = "select * from Exclusiones  as e inner join Reporte as A on A.idAplicacion = e.idAplicacion where A.idAplicacion = ?";
@@ -30,14 +30,13 @@ public class ConnectionFactory {
 	public List<String> nombreAplicativos() {
 		log.debug("consultando nombreAplicativos");
 		List<String> lista = new ArrayList<>();
-		Connection conexion = null;
 		
 		try	{
 
 		  conexion = DataSource.conexion();
 		
 		   s = conexion.createStatement(); 
-		   rs = s.executeQuery (nombreAplicaciones);
+		   rs = s.executeQuery (nomAp);
 		
 		   while(rs.next()) {
 			   lista.add(rs.getString(1));
