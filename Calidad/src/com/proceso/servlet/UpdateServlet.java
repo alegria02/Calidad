@@ -46,8 +46,8 @@ public class UpdateServlet extends HttpServlet {
 
 	        Collection<Part> parts = request.getParts();
 	        for(Part part : parts) {
-	                part.write(part.getName()+"2.xlsx");
-	                log.debug("leyendo archivo excel: " +  part.getName()+"2.xlsx");
+	                part.write(part.getName()+".xlsx");
+	                log.debug("leyendo archivo excel: " +  part.getName()+".xlsx");
 	        }
 	        
 	        log.debug("Ruta archivo excel: " + Constantes.RUTA_PLANILLA);

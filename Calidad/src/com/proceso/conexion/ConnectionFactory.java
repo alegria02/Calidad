@@ -17,7 +17,7 @@ public class ConnectionFactory {
 	private static final String nombreAplicaciones = "select idAplicacion from Reporte group by idAplicacion";
 	private static final String consultaHistorial = "select R.fecha, R.stream, R.eficiencia, R.mantenibilidad, R.portabilidad, R.fiabilidad, R.seguridad, R.medidor, R.observacion FROM Reporte as R where R.idAplicacion = ? ";
 	private static final String mayorMedicion = "select MAX(eficiencia) as eficiencia, MAX(mantenibilidad) as mantenibilidad, MAX(portabilidad) as portabilidad, MAX(fiabilidad) as fiabilidad, MAX(seguridad) as seguridad, idAplicacion FROM Reporte as R  group by idAplicacion";
-	private static final String consultaExclusiones = "select * from Exclusiones  as e inner join Aplicacion as A on A.idAplicacion = e.idAplicacion where A.nombre = ?";
+	private static final String consultaExclusiones = "select * from Exclusiones  as e inner join Reporte as A on A.idAplicacion = e.idAplicacion where A.idAplicacion = ?";
 	private static final String mejorMedicion = "select MAX(eficiencia) as eficiencia, MAX(mantenibilidad) as mantenibilidad, MAX(portabilidad) as portabilidad, MAX(fiabilidad) as fiabilidad, MAX(seguridad) as seguridad, idAplicacion FROM Reporte as R where idAplicacion = ?";
 	private static final String insertarRegistros = "INSERT INTO Planilla.Reporte VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String validarUsuario = "Select * from Usuario where nombre=? and password=?";
@@ -166,27 +166,31 @@ public class ConnectionFactory {
 	
 		   int ress = 0;
 		   for (int i = 1; i < lista.size(); i++) {
-			   log.debug(lista.get(i).get(2) + " - "); //aplicativo
-				log.debug(lista.get(i).get(1)+ " - "); //stream
-				log.debug(lista.get(i).get(5)+ " - "); // fecha
-				log.debug(lista.get(i).get(4)+ " - "); // efi
-				log.debug(lista.get(i).get(7)+ " - ");//man
-				log.debug(lista.get(i).get(4)+ " - ");//por
-				log.debug(lista.get(i).get(6)+ " - ");//conf
-				log.debug(lista.get(i).get(0));//segu
+			   
+//			   Date fecha = java.sql.Date.valueOf(lista.get(i).get(2));
+			   String fecha = lista.get(i).get(2);
+			   String stream = lista.get(i).get(1);
+			   String nombreApp = lista.get(i).get(0);
+			   double efi = Double.parseDouble(lista.get(i).get(5));
+			   double man = Double.parseDouble(lista.get(i).get(3));
+			   double por = Double.parseDouble(lista.get(i).get(7));
+			   double fia = Double.parseDouble(lista.get(i).get(4));
+			   double seg = Double.parseDouble(lista.get(i).get(6));
+			   
+			   log.debug(fecha +"-"+ stream +"-"+ nombreApp +"-"+ efi +"-"+ man+"-" + por+"-" + fia +"-"+ seg);
 				
 			   ps = conexion.prepareStatement(insertarRegistros); 
 
-			   ps.setDate(1, java.sql.Date.valueOf(lista.get(i).get(2)));//fecha
-			   ps.setString(2, lista.get(i).get(1));//stream
-			   ps.setDouble(3, Double.parseDouble(lista.get(i).get(5)));//efi
-			   ps.setDouble(4, Double.parseDouble(lista.get(i).get(3)));//man
-			   ps.setDouble(5, Double.parseDouble(lista.get(i).get(7)));//por
-			   ps.setDouble(6, Double.parseDouble(lista.get(i).get(4)));//fia
-			   ps.setDouble(7, Double.parseDouble(lista.get(i).get(6)));//seg
+			   ps.setString(1, fecha);//fecha
+			   ps.setString(2, stream);//stream
+			   ps.setDouble(3, efi);//efi
+			   ps.setDouble(4, man);//man
+			   ps.setDouble(5, por);//por
+			   ps.setDouble(6, fia);//fia
+			   ps.setDouble(7, seg);//seg
 			   ps.setString(8, "Kiuwan");
 			   ps.setString(9, "Sin Anomalias");
-			   ps.setString(10, lista.get(i).get(0));
+			   ps.setString(10, nombreApp);
 
 			   
 			   ress = ps.executeUpdate();
