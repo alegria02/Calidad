@@ -18,14 +18,15 @@ import com.proceso.conexion.ConnectionFactory;
  */
 @WebServlet("/Acceso")
 public class Acceso extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Acceso() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Acceso() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,25 +35,24 @@ public class Acceso extends HttpServlet {
 
 		String usuario = request.getParameter("user");
 		String clave = request.getParameter("pass");
-		
+
 		ConnectionFactory conn = new ConnectionFactory();
-		
+
 		int respuesta = conn.validarUsuario(usuario, clave);
-		
-		
+
 		if (respuesta == 1) {
 			HttpSession sesion = request.getSession();
 
 			sesion.setAttribute("usuario", usuario);
-			
+
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/cargaDocumento.jsp");
 			dispatcher.forward(request, response);
-			
+
 		} else if (respuesta == 0) {
 			PrintWriter pr = response.getWriter();
 			pr.println("Error capa 8");
 		}
-		
+
 	}
 
 	/**
@@ -61,7 +61,5 @@ public class Acceso extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
-	
 
 }

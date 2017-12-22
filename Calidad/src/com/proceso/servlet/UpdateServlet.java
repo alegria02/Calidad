@@ -21,47 +21,47 @@ import jxl.common.Logger;
 /**
  * Servlet implementation class UpdateServlet
  */
-@WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
-@MultipartConfig(location="/home/planillas/")
+@WebServlet(name = "UpdateServlet", urlPatterns = { "/UpdateServlet" })
+@MultipartConfig(location = "/home/planillas/")
 public class UpdateServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-	private static Logger log = Logger.getLogger(UpdateServlet.class);  
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateServlet() {
-        super();
-    }
+	private static Logger log = Logger.getLogger(UpdateServlet.class);
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UpdateServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.info("entre a doGet UpdateServlet");
-		
+
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		try {
 
-	        Collection<Part> parts = request.getParts();
-	        for(Part part : parts) {
-	                part.write(part.getName()+".xlsx");
-	                log.debug("leyendo archivo excel: " +  part.getName()+".xlsx");
-	        }
-	        
-	        log.debug("Ruta archivo excel: " + Constantes.RUTA_PLANILLA);
-	        
-	       Test test = new Test();
-	       test.cargaPlanilla(Constantes.RUTA_PLANILLA);
-	        
-	        
-	        String mensaje = "Planilla cargada exitosamente";
-	        
-	        request.setAttribute("mensaje", mensaje);
-	        log.debug("Mensaje cargado: " + mensaje);
-	        
-	        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/cargaDocumento.jsp");
+			Collection<Part> parts = request.getParts();
+			for (Part part : parts) {
+				part.write(part.getName() + ".xlsx");
+				log.debug("leyendo archivo excel: " + part.getName() + ".xlsx");
+			}
+
+			log.debug("Ruta archivo excel: " + Constantes.RUTA_PLANILLA);
+
+			Test test = new Test();
+			test.cargaPlanilla(Constantes.RUTA_PLANILLA);
+
+			String mensaje = "Planilla cargada exitosamente";
+
+			request.setAttribute("mensaje", mensaje);
+			log.debug("Mensaje cargado: " + mensaje);
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/cargaDocumento.jsp");
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
 			log.error("Error leyendo archivo: " + e, e);

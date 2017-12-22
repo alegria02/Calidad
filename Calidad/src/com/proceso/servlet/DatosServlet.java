@@ -19,15 +19,16 @@ import com.proceso.conexion.ConnectionFactory;
  */
 @WebServlet("/DatosServlet")
 public class DatosServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(DatosServlet.class);
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DatosServlet() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public DatosServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,19 +37,19 @@ public class DatosServlet extends HttpServlet {
 		try {
 			log.info("entre a doGet DatosServlet");
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dashboard.jsp");
-			
+
 			ConnectionFactory consulta = new ConnectionFactory();
 			log.debug("pase por aqui");
 			List<String> datos = consulta.nombreAplicativos();
 			List<List<String>> informe = consulta.informe();
 			request.setAttribute("listaNombresApp", datos);
 			request.setAttribute("mediciones", informe);
-			
+
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
 			log.error("Error " + e.getMessage(), e);
 		}
-		
+
 	}
 
 	/**
