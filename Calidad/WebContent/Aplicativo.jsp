@@ -20,6 +20,7 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.css">
+<link rel="Shortcut Icon" href="img/favicon.ico" type="image/x-icon" />
 
 <!-- Font Awesome -->
 <link rel="stylesheet"
@@ -222,18 +223,17 @@ $( document ).ready(function() {
 												</tr>
 											</thead>
 											<tbody>
-												<% for (int j = 0; j < medicion.size(); j++) {
-														out.print("<tr>");
-														out.print("<td>" + medicion.get(j).get(0) + "</td>");
-														out.print("<td>" + medicion.get(j).get(1) + "</td>");
-														out.print("<td>" + medicion.get(j).get(2) + "</td>");
-														out.print("<td>" + medicion.get(j).get(3) + "</td>");
-														out.print("<td>" + medicion.get(j).get(4) + "</td>");
-														out.print("<td>" + medicion.get(j).get(5) + "</td>");
-														out.print("<td><a href="+"ExclusionesServlet?app="+medicion.get(j).get(5)+">Exclusiones</a> </td>");
-														out.print("</tr>");
-												}
-												%>
+												<% for (int j = 0; j < medicion.size(); j++) {%>
+														<tr>
+															<td><% out.print(medicion.get(j).get(0));%></td>
+															<td><%out.print(medicion.get(j).get(1));%></td>
+															<td><%out.print(medicion.get(j).get(2));%></td>
+															<td><%out.print(medicion.get(j).get(3));%></td>
+															<td><%out.print(medicion.get(j).get(4));%></td>
+															<td><%out.print(medicion.get(j).get(5));%></td>
+															<td><a href='<%out.print("ExclusionesServlet?app="+medicion.get(j).get(5));%>'>Exclusiones</a></td>
+														</tr>
+												<%}	%>
 											</tbody>
 										</table>
 									</div>

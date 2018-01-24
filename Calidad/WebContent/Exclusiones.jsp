@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="msapplication-TileColor" content="#5bc0de" />
 	<meta name="msapplication-TileImage" content="assets/img/metis-tile.png" />
-	
+	<link rel="Shortcut Icon" href="img/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/lib/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/lib/font-awesome/css/font-awesome.min.css">

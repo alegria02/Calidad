@@ -19,6 +19,7 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.css">
+<link rel="Shortcut Icon" href="img/favicon.ico" type="image/x-icon" />
 
 <!-- Font Awesome -->
 <link rel="stylesheet"
