@@ -36,6 +36,9 @@ public class UpdateServlet extends HttpServlet {
 	}
 
 	/**
+	 * Metodo que recibe un excel, con todas las mediciones de calidad
+	 * para cargarlas en la base de datos
+	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,9 +57,9 @@ public class UpdateServlet extends HttpServlet {
 			log.debug("Ruta archivo excel: " + Constantes.RUTA_PLANILLA);
 
 			Test test = new Test();
-			test.cargaPlanilla(Constantes.RUTA_PLANILLA);
+			int registrosInsertados = test.cargaPlanilla(Constantes.RUTA_PLANILLA);
 
-			String mensaje = "Planilla cargada exitosamente";
+			String mensaje = "Registros insertados : [" + registrosInsertados + "]";
 
 			request.setAttribute("mensaje", mensaje);
 			log.debug("Mensaje cargado: " + mensaje);
@@ -66,6 +69,8 @@ public class UpdateServlet extends HttpServlet {
 		} catch (Exception e) {
 			log.error("Error leyendo archivo: " + e, e);
 			out.print(e);
+			out.close();
+		} finally {
 			out.close();
 		}
 	}

@@ -21,7 +21,8 @@ public class ConnectionFactory {
 	private static final String mejorMedicion = "select MAX(eficiencia) as eficiencia, MAX(mantenibilidad) as mantenibilidad, MAX(portabilidad) as portabilidad, MAX(fiabilidad) as fiabilidad, MAX(seguridad) as seguridad, A.nombre FROM Reporte as R inner join Aplicacion as A on A.idAplicacion = R.idAplicacion where A.nombre = ?";
 	private static final String insertarRegistros = "INSERT INTO Planilla.Reporte VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String validarUsuario = "Select * from Usuario where nombre=? and password=?";
-	private static final String insertarInforme = "INSERT INTO informe.Reporte VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String insertarInforme = "INSERT INTO Planilla.Reporte VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String borrarRegistros = "DELETE FROM Planilla.Reporte";
 	Connection conexion = null;
 	PreparedStatement ps = null;
 	Statement s = null;
@@ -154,41 +155,54 @@ public class ConnectionFactory {
 	public int insertarRegistros(List<List<String>> lista) {
 
 		try {
-
+			int ress = 0;
+			
 			conexion = DataSource.conexion();
 
-			int ress = 0;
-			for (int i = 1; i < lista.size(); i++) {
+			conexion.prepareStatement(borrarRegistros);
+			
+			ress = ps.executeUpdate();
+			
+			log.info("Respuesta eliminando registros ["+ress+"]");
+			
+			if (ress > 0) {
+				ress = 0;
+				
+				for (int i = 1; i < lista.size(); i++) {
 
-				// Date fecha = java.sql.Date.valueOf(lista.get(i).get(2));
-				String fecha = lista.get(i).get(2);
-				String stream = lista.get(i).get(1);
-				String nombreApp = lista.get(i).get(0);
-				double efi = Double.parseDouble(lista.get(i).get(5));
-				double man = Double.parseDouble(lista.get(i).get(3));
-				double por = Double.parseDouble(lista.get(i).get(7));
-				double fia = Double.parseDouble(lista.get(i).get(4));
-				double seg = Double.parseDouble(lista.get(i).get(6));
+					// Date fecha = java.sql.Date.valueOf(lista.get(i).get(2));
+					String fecha = lista.get(i).get(2);
+					String stream = lista.get(i).get(1);
+					String nombreApp = lista.get(i).get(0);
+					double efi = Double.parseDouble(lista.get(i).get(5));
+					double man = Double.parseDouble(lista.get(i).get(3));
+					double por = Double.parseDouble(lista.get(i).get(7));
+					double fia = Double.parseDouble(lista.get(i).get(4));
+					double seg = Double.parseDouble(lista.get(i).get(6));
 
-				log.debug(fecha + "-" + stream + "-" + nombreApp + "-" + efi + "-" + man + "-" + por + "-" + fia + "-" + seg);
+					log.debug(fecha + "-" + stream + "-" + nombreApp + "-" + efi + "-" + man + "-" + por + "-" + fia + "-" + seg);
 
-				ps = conexion.prepareStatement(insertarRegistros);
+					ps = conexion.prepareStatement(insertarRegistros);
 
-				ps.setString(1, fecha);// fecha
-				ps.setString(2, stream);// stream
-				ps.setDouble(3, efi);// efi
-				ps.setDouble(4, man);// man
-				ps.setDouble(5, por);// por
-				ps.setDouble(6, fia);// fia
-				ps.setDouble(7, seg);// seg
-				ps.setString(8, "Kiuwan");
-				ps.setString(9, "Sin Anomalias");
-				ps.setString(10, nombreApp);
+					ps.setString(1, fecha);// fecha
+					ps.setString(2, stream);// stream
+					ps.setDouble(3, efi);// efi
+					ps.setDouble(4, man);// man
+					ps.setDouble(5, por);// por
+					ps.setDouble(6, fia);// fia
+					ps.setDouble(7, seg);// seg
+					ps.setString(8, "Kiuwan");
+					ps.setString(9, "Sin Anomalias");
+					ps.setString(10, nombreApp);
 
-				ress = ps.executeUpdate();
-
+					ress += ps.executeUpdate();
+					
+					log.info("Respuesta insercion de registro ["+ress+"]");
+				}
 			}
-			log.info("======================== Fin insercion de registros ========================");
+			
+			
+			
 			return ress;
 
 		} catch (Exception e) {
