@@ -39,9 +39,10 @@ public class LeerExcel {
 			int filas = 0;
 			
 			while (rowIterator.hasNext()) {
+				log.debug("Leyendo fila numero: ["+filas+"]");
 				if (filas != 0) {
-					filas++;
-					log.debug("Leyendo fila numero: ["+filas+"]");
+					
+					
 					Row row = (Row) rowIterator.next();
 
 					List<String> datos = new ArrayList<>();
@@ -88,7 +89,11 @@ public class LeerExcel {
 						}
 					}
 					arreglo.add(datos);
+				} else {
+					filas++;
+					rowIterator.next();
 				}
+				
 			}
 				
 			return arreglo;

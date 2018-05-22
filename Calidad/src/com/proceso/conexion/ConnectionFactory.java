@@ -15,7 +15,7 @@ public class ConnectionFactory {
 	private static final String ERROR_DE_CONEXION = "Error de Conexion: ";
 	private static Logger log = Logger.getLogger(ConnectionFactory.class);
 	private static final String nomAp = "select nombre from Aplicacion";
-	private static final String consultaHistorial = "select R.fecha, R.stream, R.eficiencia, R.mantenibilidad, R.portabilidad, R.fiabilidad, R.seguridad, R.medidor, R.observacion FROM Reporte as R  inner join Aplicacion as A on A.idAplicacion = R.idAplicacion where A.nombre = ? ";
+	private static final String consultaHistorial = "select R.fecha, R.stream, R.eficiencia, R.mantenibilidad, R.portabilidad, R.fiabilidad, R.seguridad, R.medidor, R.observacion FROM Reporte as R  inner join Aplicacion as A on A.idAplicacion = R.idAplicacion where A.nombre = ? order by R.fecha desc";
 	private static final String mayorMedicion = "select MAX(eficiencia) as eficiencia, MAX(mantenibilidad) as mantenibilidad, MAX(portabilidad) as portabilidad, MAX(fiabilidad) as fiabilidad, MAX(seguridad) as seguridad, A.nombre  FROM Reporte as R inner join Aplicacion as A on A.idAplicacion=R.idAplicacion group by R.idAplicacion";
 	private static final String consultaExclusiones = "select * from Exclusiones  as E inner join Aplicacion as A on A.idAplicacion = E.idAplicacion where A.nombre = ?";
 	private static final String mejorMedicion = "select MAX(eficiencia) as eficiencia, MAX(mantenibilidad) as mantenibilidad, MAX(portabilidad) as portabilidad, MAX(fiabilidad) as fiabilidad, MAX(seguridad) as seguridad, A.nombre FROM Reporte as R inner join Aplicacion as A on A.idAplicacion = R.idAplicacion where A.nombre = ?";
@@ -159,16 +159,16 @@ public class ConnectionFactory {
 			
 			conexion = DataSource.conexion();
 
-			conexion.prepareStatement(borrarRegistros);
+			PreparedStatement ps2 = conexion.prepareStatement(borrarRegistros);
 			
-			ress = ps.executeUpdate();
+			ress = ps2.executeUpdate();
 			
 			log.info("Respuesta eliminando registros ["+ress+"]");
 			
 			if (ress > 0) {
 				ress = 0;
 				
-				for (int i = 1; i < lista.size(); i++) {
+				for (int i = 0; i < lista.size(); i++) {
 
 					// Date fecha = java.sql.Date.valueOf(lista.get(i).get(2));
 					String fecha = lista.get(i).get(2);
@@ -199,6 +199,8 @@ public class ConnectionFactory {
 					
 					log.info("Respuesta insercion de registro ["+ress+"]");
 				}
+				
+				lista.clear();
 			}
 			
 			

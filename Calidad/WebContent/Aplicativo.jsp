@@ -231,7 +231,7 @@ $( document ).ready(function() {
 															<td><%out.print(medicion.get(j).get(3));%></td>
 															<td><%out.print(medicion.get(j).get(4));%></td>
 															<td><%out.print(medicion.get(j).get(5));%></td>
-															<td><a href='<%out.print("ExclusionesServlet?app="+medicion.get(j).get(5));%>'>Exclusiones</a></td>
+															<td><a href='<%out.print("ExclusionesServlet?app=" + medicion.get(j).get(5));%>'>Exclusiones</a></td>
 														</tr>
 												<%}	%>
 											</tbody>

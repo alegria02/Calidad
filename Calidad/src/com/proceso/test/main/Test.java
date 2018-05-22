@@ -13,6 +13,7 @@ public class Test {
 
 		ConnectionFactory cn = new ConnectionFactory();
 		return cn.insertarRegistros(lectura);
+		
 	}
 
 }

@@ -188,7 +188,7 @@
 														out.print("<td>" + informe.get(j).get(3) + "</td>");
 														out.print("<td>" + informe.get(j).get(4) + "</td>");
 														out.print("<td>" + informe.get(j).get(5) + "</td>");
-														out.print("<td><a href="+"ExclusionesServlet?app="+informe.get(j).get(5)+">Exclusiones</a> </td>");
+														out.print("<td><a href='"+"ExclusionesServlet?app="+informe.get(j).get(5)+"'>Exclusiones</a> </td>");
 														out.print("</tr>");
 												}
 												%>
